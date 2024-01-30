@@ -1,0 +1,7 @@
+REQUIREMENTS : 
+  1.creating/registering account(name,phone number,address)
+  2.add bankaccount(user can addmultiple bank accounts,optional)
+  3.add money to wallet(deposit limit)
+  4.send money /do a transaction(daily transaction limit,monthly transaction limit)
+  5.statement
+  6.refund
