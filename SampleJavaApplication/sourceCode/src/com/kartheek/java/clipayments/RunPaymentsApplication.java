@@ -26,8 +26,6 @@ public class RunPaymentsApplication {
 			String optStr = opt.next();
 			try {
 				selectedOption = Integer.parseInt(optStr);
-//				int currBal=10;
-//				int x = 100/currBal;
 				
 			}catch(NumberFormatException e) {
 				e.printStackTrace();
@@ -66,13 +64,13 @@ public class RunPaymentsApplication {
 				
 				
 				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-//				usersList[0]=u;
 				for(int i=0;i<usersList.length;i++) {
 					if(usersList[i] != null) {
 						 continue;
 					}
 					usersList[i] = u;
 					break;
+					 
 				}
 			}else if(optStr.equalsIgnoreCase("2")) {
 				
