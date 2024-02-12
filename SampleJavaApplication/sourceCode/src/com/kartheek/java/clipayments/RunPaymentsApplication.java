@@ -7,7 +7,8 @@ import com.kartheek.java.clipayments.entity.User;
 public class RunPaymentsApplication {
 
 	static int x=10;
-	public static User[] usersList = new User[5];
+    static User[] userList =  new User[UserObject.usersList.length];  
+    userList = UserObject.usersList;
 
 	public static void main(String[] args) {
 		
@@ -21,6 +22,7 @@ public class RunPaymentsApplication {
 			System.out.println("3. ADD Bank Account");
 			System.out.println("4. List of Users");
 			System.out.println("-1. Quit/ Logout");
+			System.out.println("5. Current User");
 			System.out.println("Choose an Option:");
 			
 			String optStr = opt.next();
@@ -64,23 +66,35 @@ public class RunPaymentsApplication {
 				
 				
 				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-				for(int i=0;i<usersList.length;i++) {
-					if(usersList[i] != null) {
+				for(int i=0;i<userList.length;i++) {
+					if( userList[i] != null) {
 						 continue;
 					}
-					usersList[i] = u;
+					 userList[i] = u;
 					break;
 					 
 				}
 			}else if(optStr.equalsIgnoreCase("2")) {
+				System.out.println("enter User credentials to login ");
+				System.out.println();
+				System.out.println("Enter UserId : ");
+				int userId = opt.nextInt();
+				System.out.println("Enter password : ");
+				String password = opt.next();
+				
+				ops.userLogIn ( userId, password);
+				
 				
 			}else if(optStr.equalsIgnoreCase("3")) {
 				
 			}else if(optStr.equalsIgnoreCase("4")) {
-				ops.printUserList(usersList);
+				ops.printUserList( );
 			}else if(optStr.equalsIgnoreCase("-1")) {
 				break;
-			}else {
+			}else if(optStr.equalsIgnoreCase("5")) {
+				 ops.currentUser();
+			}
+			else {
 				
 			}
 		}

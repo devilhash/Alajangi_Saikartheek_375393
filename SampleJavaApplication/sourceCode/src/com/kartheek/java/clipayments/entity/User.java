@@ -43,8 +43,8 @@ public class User {
 	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId( ) {
+		this.userId =  (int) (Math.random()*1000+100);
 	}
 	public String getPassword() {
 		return password;
