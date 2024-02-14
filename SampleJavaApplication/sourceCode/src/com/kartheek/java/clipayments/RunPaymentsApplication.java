@@ -1,5 +1,7 @@
 package com.kartheek.java.clipayments;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.kartheek.java.clipayments.entity.User;
@@ -7,8 +9,9 @@ import com.kartheek.java.clipayments.entity.User;
 public class RunPaymentsApplication {
 
 	static int x=10;
-    static User[] userList =  new User[UserObject.usersList.length];  
-    userList = UserObject.usersList;
+   static List<User> userList = new ArrayList<User> ();
+   static int currentUserId = -1;
+    
 
 	public static void main(String[] args) {
 		
@@ -66,15 +69,11 @@ public class RunPaymentsApplication {
 				
 				
 				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-				for(int i=0;i<userList.length;i++) {
-					if( userList[i] != null) {
-						 continue;
-					}
-					 userList[i] = u;
-					break;
+			     userList.add(u);
 					 
-				}
+		 
 			}else if(optStr.equalsIgnoreCase("2")) {
+				if(currentUserId == -1) {
 				System.out.println("enter User credentials to login ");
 				System.out.println();
 				System.out.println("Enter UserId : ");
@@ -83,6 +82,10 @@ public class RunPaymentsApplication {
 				String password = opt.next();
 				
 				ops.userLogIn ( userId, password);
+				}
+				else {
+					System.out.println("To log in to another account you must log out the current user");
+				}
 				
 				
 			}else if(optStr.equalsIgnoreCase("3")) {
