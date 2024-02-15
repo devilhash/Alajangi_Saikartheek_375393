@@ -1,11 +1,15 @@
 package com.kartheek.java.clipayments.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 	private String firstName;
 	private String lastName;
 	private long phoneNum;
 	private String dateOfBirth;
 	private String communicationAddr;
+	private List<BankAccount> bankList = new ArrayList<BankAccount>();
 	
 	private int userId;
 	private String password;

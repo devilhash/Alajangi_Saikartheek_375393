@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.kartheek.java.clipayments.entity.AcctType;
+import com.kartheek.java.clipayments.entity.BankAccount;
 import com.kartheek.java.clipayments.entity.User;
 
 public class RunPaymentsApplication {
@@ -11,6 +13,7 @@ public class RunPaymentsApplication {
 	static int x=10;
    static List<User> userList = new ArrayList<User> ();
    static int currentUserId = -1;
+	 
     
 
 	public static void main(String[] args) {
@@ -53,25 +56,7 @@ public class RunPaymentsApplication {
 			System.out.println("User selected "+selectedOption);
 			UserOperations ops = new UserOperations();
 			if(optStr.equalsIgnoreCase("1")) {
-				System.out.println("Please do provide user details as asked:");
-				System.out.println("First Name:");
-				String fName = opt.next();
-				System.out.println("Last Name:");
-				String lName = opt.next();
-				System.out.println("Phone Number:");
-				long phNo = Long.parseLong(opt.next());
-				System.out.println("Date Of Birth:");
-				String dob = opt.next();
-				System.out.println("Address:");
-				String addr = opt.next();
-				System.out.println("Password:");
-				String password = opt.next();
-				
-				
-				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-			     userList.add(u);
-					 
-		 
+			   register();
 			}else if(optStr.equalsIgnoreCase("2")) {
 				if(currentUserId == -1) {
 				System.out.println("enter User credentials to login ");
@@ -89,6 +74,7 @@ public class RunPaymentsApplication {
 				
 				
 			}else if(optStr.equalsIgnoreCase("3")) {
+				addBankAccount();
 				
 			}else if(optStr.equalsIgnoreCase("4")) {
 				ops.printUserList( );
@@ -102,6 +88,90 @@ public class RunPaymentsApplication {
 			}
 		}
 		opt.close();
+	}
+	
+	
+	
+	
+	private static void register() {
+		Scanner opt = new Scanner(System.in);
+		System.out.println("Please do provide user details as asked:");
+		System.out.println("First Name:");
+		String fName = opt.next();
+		System.out.println("Last Name:");
+		String lName = opt.next();
+		System.out.println("Phone Number:");
+		long phNo = Long.parseLong(opt.next());
+		System.out.println("Date Of Birth:");
+		String dob = opt.next();
+		System.out.println("Address:");
+		String addr = opt.next();
+		System.out.println("Password:");
+		String password = opt.next();
+		
+		UserOperations ops = new UserOperations();
+		User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
+	     userList.add(u);
+	     opt.close();
+	}
+	
+	
+	private static void logIn() {
+		Scanner opt = new Scanner(System.in);
+		if(currentUserId == -1) {
+			System.out.println("enter User credentials to login ");
+			System.out.println();
+			System.out.println("Enter UserId : ");
+			int userId = opt.nextInt();
+			System.out.println("Enter password : ");
+			String password = opt.next();
+			
+			UserOperations ops = new UserOperations();
+			
+			ops.userLogIn ( userId, password);
+			}
+			else {
+				System.out.println("To log in to another account you must log out the current user");
+			}
+	}
+	private static void addBankAccount() {
+		BankAccount bankAccount = new BankAccount();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Bank Name : ");
+		String bankName = sc.next();
+		System.out.println("Enter Bank Account Number : ");
+		String acctNumber = sc.next();
+		System.out.println("Enter IFSC Code : ");
+		String ifsc = sc.next();
+		System.out.println("Select Your Account type from the following : ");
+		for(AcctType type : AcctType.values()) {
+			System.out.println("      "+type);
+		}
+		String actType = sc.next();
+		try {
+			AcctType acctType = AcctType.valueOf(actType);
+			bankAccount.setAcctType(acctType);
+		}
+		catch(IllegalArgumentException e) {
+			System.out.println("User should enter only one of the following values");
+			for(AcctType type : AcctType.values()) {
+				System.out.println("      "+type);
+			}
+		}
+	 
+		
+		System.out.println("Enter Account Pin");
+		String pin = sc.next();
+		
+		 
+		bankAccount.setBankName(bankName);
+		bankAccount.setAcctNumber(acctNumber);
+		bankAccount.setIFSC(ifsc);
+		bankAccount.setAcctPin(pin);
+		bankAccount.setUserid(currentUserId);
+		 
+		
+		
 	}
 
 }
