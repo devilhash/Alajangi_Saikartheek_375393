@@ -28,7 +28,7 @@ public class FileOps  {
 		while((line = br.readLine())!= null) {
 			String[] usrDet = line.split(",");
 			User user = new User();
-			user.userId = 
+			 
 		}
 		
 		

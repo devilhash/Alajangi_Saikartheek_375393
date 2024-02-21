@@ -16,8 +16,8 @@ public class UserOperations {
 		
 		u.setUserId();
 		
-		FileOps fileOps = new FileOps();
-		fileOps.userToFile(u);
+//		FileOps fileOps = new FileOps();
+//		fileOps.userToFile(u);
 		return u;
 	}
 	

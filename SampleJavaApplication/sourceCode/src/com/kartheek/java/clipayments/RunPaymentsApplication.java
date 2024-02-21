@@ -7,12 +7,14 @@ import java.util.Scanner;
 import com.kartheek.java.clipayments.entity.AcctType;
 import com.kartheek.java.clipayments.entity.BankAccount;
 import com.kartheek.java.clipayments.entity.User;
+import com.kartheek.java.clipayments.entity.Wallet;
 
 public class RunPaymentsApplication {
 
 	static int x=10;
    static List<User> userList = new ArrayList<User> ();
    static int currentUserId = -1;
+   static Wallet wallet;
 	 
     
 
@@ -26,6 +28,7 @@ public class RunPaymentsApplication {
 			System.out.println("1. Register New User");
 			System.out.println("2. Login");
 			System.out.println("3. ADD Bank Account");
+			System.out.println("6.Add money to Wallet");
 			System.out.println("4. List of Users");
 			System.out.println("-1. Quit/ Logout");
 			System.out.println("5. Current User");
@@ -57,6 +60,7 @@ public class RunPaymentsApplication {
 			UserOperations ops = new UserOperations();
 			if(optStr.equalsIgnoreCase("1")) {
 			   register();
+			   
 			}else if(optStr.equalsIgnoreCase("2")) {
 				if(currentUserId == -1) {
 				System.out.println("enter User credentials to login ");
@@ -82,6 +86,8 @@ public class RunPaymentsApplication {
 				break;
 			}else if(optStr.equalsIgnoreCase("5")) {
 				 ops.currentUser();
+			}else if(optStr.equalsIgnoreCase("6")) {
+				   addMoney();
 			}
 			else {
 				
@@ -111,8 +117,10 @@ public class RunPaymentsApplication {
 		String password = opt.next();
 				UserOperations ops = new UserOperations();
 				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
+				wallet = new Wallet();
 				 
 			     userList.add(u);
+			     
 		 }
 		 catch(Exception e) {
 			 e.printStackTrace();
@@ -179,6 +187,27 @@ public class RunPaymentsApplication {
 		 
 		
 		
+	}
+	private static void addMoney() {
+		
+		if(currentUserId!=-1) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter amount : ");
+		double amount = sc.nextDouble();
+		sc.close();
+		if(amount <=10000.00) {
+			wallet.setBalance(wallet.getBalance()+amount);
+			System.out.println("your current balance is "+wallet.getBalance());
+		}
+		else {
+			System.out.println("Maximum deposit is 10,000 ");
+		}
+	 
+		 
+	}
+		else {
+			System.out.println("user must log in to add money to wallet");
+		}
 	}
 
 }
