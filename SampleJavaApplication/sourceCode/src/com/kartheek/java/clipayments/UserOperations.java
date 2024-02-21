@@ -5,7 +5,7 @@ import com.kartheek.java.clipayments.entity.*;
 
 public class UserOperations {
 	 List<User>list = RunPaymentsApplication.userList;
-	public User doUserRegistration(String fName, String lName, String password, long phNum, String dob,String addr) {
+	public User doUserRegistration(String fName, String lName, String password, long phNum, String dob,String addr) throws Exception{
 		User u = new User();
 		u.setFirstName(fName);
 		u.setLastName(lName);
@@ -15,6 +15,9 @@ public class UserOperations {
 		u.setPassword(password);
 		
 		u.setUserId();
+		
+		FileOps fileOps = new FileOps();
+		fileOps.userToFile(u);
 		return u;
 	}
 	

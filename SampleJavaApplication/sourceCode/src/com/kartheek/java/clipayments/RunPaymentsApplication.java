@@ -94,6 +94,7 @@ public class RunPaymentsApplication {
 	
 	
 	private static void register() {
+		 try {
 		Scanner opt = new Scanner(System.in);
 		System.out.println("Please do provide user details as asked:");
 		System.out.println("First Name:");
@@ -108,11 +109,17 @@ public class RunPaymentsApplication {
 		String addr = opt.next();
 		System.out.println("Password:");
 		String password = opt.next();
+				UserOperations ops = new UserOperations();
+				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
+				 
+			     userList.add(u);
+		 }
+		 catch(Exception e) {
+			 e.printStackTrace();
+		 }
 		
-		UserOperations ops = new UserOperations();
-		User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-	     userList.add(u);
-	     opt.close();
+	 
+	     
 	}
 	
 	
