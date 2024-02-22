@@ -88,6 +88,8 @@ public class RunPaymentsApplication {
 				 ops.currentUser();
 			}else if(optStr.equalsIgnoreCase("6")) {
 				   addMoney();
+			}else if(optStr.equalsIgnoreCase("7")) {
+				  logout();
 			}
 			else {
 				
@@ -191,10 +193,10 @@ public class RunPaymentsApplication {
 	private static void addMoney() {
 		
 		if(currentUserId!=-1) {
+		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter amount : ");
 		double amount = sc.nextDouble();
-		sc.close();
 		if(amount <=10000.00) {
 			wallet.setBalance(wallet.getBalance()+amount);
 			System.out.println("your current balance is "+wallet.getBalance());
@@ -208,6 +210,9 @@ public class RunPaymentsApplication {
 		else {
 			System.out.println("user must log in to add money to wallet");
 		}
+	}
+	private static void logout() {
+		currentUserId = -1;
 	}
 
 }
