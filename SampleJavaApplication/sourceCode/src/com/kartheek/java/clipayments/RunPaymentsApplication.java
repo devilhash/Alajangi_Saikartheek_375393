@@ -19,6 +19,17 @@ public class RunPaymentsApplication {
     
 
 	public static void main(String[] args) {
+		FileOps fileOps = new FileOps();
+		 try {
+			List<User> userData = fileOps.fileToUser();
+			for(User u : userData) {
+				System.out.println(u.getUserId()+" "+u.getFirstName()+" "+u.getLastName()+" "+u.getPhoneNum()+" "+u.getDateOfBirth()+" "+u.getCommunicationAddr());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	}
+		
 		
 		int selectedOption=0;		
 		Scanner opt = new Scanner(System.in);
@@ -28,10 +39,13 @@ public class RunPaymentsApplication {
 			System.out.println("1. Register New User");
 			System.out.println("2. Login");
 			System.out.println("3. ADD Bank Account");
-			System.out.println("6.Add money to Wallet");
 			System.out.println("4. List of Users");
-			System.out.println("-1. Quit/ Logout");
 			System.out.println("5. Current User");
+			System.out.println("6.Add money to Wallet");
+			System.out.println("7.logout user");
+			System.out.println("-1. Quit ");
+
+
 			System.out.println("Choose an Option:");
 			
 			String optStr = opt.next();
@@ -62,19 +76,7 @@ public class RunPaymentsApplication {
 			   register();
 			   
 			}else if(optStr.equalsIgnoreCase("2")) {
-				if(currentUserId == -1) {
-				System.out.println("enter User credentials to login ");
-				System.out.println();
-				System.out.println("Enter UserId : ");
-				int userId = opt.nextInt();
-				System.out.println("Enter password : ");
-				String password = opt.next();
-				
-				ops.userLogIn ( userId, password);
-				}
-				else {
-					System.out.println("To log in to another account you must log out the current user");
-				}
+				 logIn();
 				
 				
 			}else if(optStr.equalsIgnoreCase("3")) {

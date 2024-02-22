@@ -11,7 +11,7 @@ import com.kartheek.java.clipayments.entity.User;
 
 public class FileOps  {
 	
-	public final String PATH = "C:\\Users\\tmf12\\Desktop\\userData\\Users.csv";
+	public final String PATH = "C:\\Users\\Dell\\Desktop\\cli\\data.csv";
 	File f = new File(PATH);
 	
 	public void userToFile(User u) throws Exception{
@@ -21,15 +21,25 @@ public class FileOps  {
 		fw.close();
 	}
 	
-	public void fileToUser() throws Exception{
+	public List<User> fileToUser() throws Exception{
 		BufferedReader br = new BufferedReader(new FileReader(f));
 		List<User> userObjectList = new ArrayList<User>();
 		String line;
 		while((line = br.readLine())!= null) {
 			String[] usrDet = line.split(",");
 			User user = new User();
-			 
+			user.setUserId(Integer.parseInt(usrDet[0]));
+			user.setFirstName(usrDet[1]);
+			user.setLastName(usrDet[2]);
+			user.setPhoneNum(Long.parseLong(usrDet[3]));
+			user.setDateOfBirth(usrDet[4]);
+			user.setCommunicationAddr(usrDet[5]);
+			
+			userObjectList.add(user);
 		}
+		
+		br.close();
+		return userObjectList;
 		
 		
 	}

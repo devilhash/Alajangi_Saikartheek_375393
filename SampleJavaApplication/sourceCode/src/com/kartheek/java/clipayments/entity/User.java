@@ -50,6 +50,9 @@ public class User {
 	public void setUserId( ) {
 		this.userId =  (int) (Math.random()*1000+100);
 	}
+	public void setUserId(int id ) {
+		this.userId =  id;
+	}
 	public String getPassword() {
 		return password;
 	}
