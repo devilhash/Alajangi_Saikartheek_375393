@@ -1,7 +1,9 @@
 package com.kartheek.java.clipayments;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.kartheek.java.clipayments.entity.AcctType;
@@ -14,22 +16,23 @@ public class RunPaymentsApplication {
 	static int x=10;
    static List<User> userList = new ArrayList<User> ();
    static int currentUserId = -1;
-   static Wallet wallet;
+ 
+    public static Map<Integer, Wallet> walletList = new HashMap<Integer,Wallet>();
 	 
     
 
 	public static void main(String[] args) {
-		FileOps fileOps = new FileOps();
-		 try {
-			List<User> userData = fileOps.fileToUser();
-			for(User u : userData) {
-				System.out.println(u.getUserId()+" "+u.getFirstName()+" "+u.getLastName()+" "+u.getPhoneNum()+" "+u.getDateOfBirth()+" "+u.getCommunicationAddr());
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-	}
-		
+//		FileOps fileOps = new FileOps();
+//		 try {
+//			List<User> userData = fileOps.fileToUser();
+//			for(User u : userData) {
+//				System.out.println(u.getUserId()+" "+u.getFirstName()+" "+u.getLastName()+" "+u.getPhoneNum()+" "+u.getDateOfBirth()+" "+u.getCommunicationAddr());
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//	}
+//		
 		
 		int selectedOption=0;		
 		Scanner opt = new Scanner(System.in);
@@ -90,7 +93,11 @@ public class RunPaymentsApplication {
 				 ops.currentUser();
 			}else if(optStr.equalsIgnoreCase("6")) {
 				   addMoney();
-			}else if(optStr.equalsIgnoreCase("7")) {
+			}
+			else if(optStr.equalsIgnoreCase("7")) {
+			 
+				System.out.println(ops.checkWalletBalance());
+			}else if(optStr.equalsIgnoreCase("8")) {
 				  logout();
 			}
 			else {
@@ -121,9 +128,12 @@ public class RunPaymentsApplication {
 		String password = opt.next();
 				UserOperations ops = new UserOperations();
 				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
-				wallet = new Wallet();
 				 
 			     userList.add(u);
+			   Wallet wallet = new Wallet();
+			   int usrId = u.getUserId();
+			   walletList.put(usrId, wallet);
+			    
 			     
 		 }
 		 catch(Exception e) {
@@ -144,6 +154,7 @@ public class RunPaymentsApplication {
 			int userId = opt.nextInt();
 			System.out.println("Enter password : ");
 			String password = opt.next();
+			 
 			
 			UserOperations ops = new UserOperations();
 			
@@ -162,20 +173,20 @@ public class RunPaymentsApplication {
 		String acctNumber = sc.next();
 		System.out.println("Enter IFSC Code : ");
 		String ifsc = sc.next();
+		 
 		System.out.println("Select Your Account type from the following : ");
 		for(AcctType type : AcctType.values()) {
 			System.out.println("      "+type);
 		}
 		String actType = sc.next();
+		 
 		try {
 			AcctType acctType = AcctType.valueOf(actType);
 			bankAccount.setAcctType(acctType);
 		}
 		catch(IllegalArgumentException e) {
-			System.out.println("User should enter only one of the following values");
-			for(AcctType type : AcctType.values()) {
-				System.out.println("      "+type);
-			}
+			e.printStackTrace();
+			 
 		}
 	 
 		
@@ -188,6 +199,8 @@ public class RunPaymentsApplication {
 		bankAccount.setIFSC(ifsc);
 		bankAccount.setAcctPin(pin);
 		bankAccount.setUserid(currentUserId);
+		
+		System.out.println(bankAccount);
 		 
 		
 		
@@ -200,8 +213,8 @@ public class RunPaymentsApplication {
 		System.out.println("Enter amount : ");
 		double amount = sc.nextDouble();
 		if(amount <=10000.00) {
-			wallet.setBalance(wallet.getBalance()+amount);
-			System.out.println("your current balance is "+wallet.getBalance());
+			UserOperations ops = new UserOperations();
+			ops.addMoneyToWallet(amount);
 		}
 		else {
 			System.out.println("Maximum deposit is 10,000 ");
@@ -215,6 +228,17 @@ public class RunPaymentsApplication {
 	}
 	private static void logout() {
 		currentUserId = -1;
+	}
+	private static String accountTypeList() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Select Your Account type from the following : ");
+		for(AcctType type : AcctType.values()) {
+			System.out.println("      "+type);
+		}
+		String actType = sc.next();
+		sc.close();
+		return actType;
+		
 	}
 
 }

@@ -1,10 +1,12 @@
 package com.kartheek.java.clipayments;
 import java.util.List;
+import java.util.Map;
 
 import com.kartheek.java.clipayments.entity.*;
 
 public class UserOperations {
 	 List<User>list = RunPaymentsApplication.userList;
+	 Map<Integer,Wallet> walletList = RunPaymentsApplication.walletList;
 	public User doUserRegistration(String fName, String lName, String password, long phNum, String dob,String addr) throws Exception{
 		User u = new User();
 		u.setFirstName(fName);
@@ -16,8 +18,8 @@ public class UserOperations {
 		
 		u.setUserId();
 		
-		FileOps fileOps = new FileOps();
-		fileOps.userToFile(u);
+//		FileOps fileOps = new FileOps();
+//		fileOps.userToFile(u);
 		return u;
 	}
 	
@@ -31,13 +33,13 @@ public class UserOperations {
 		if(RunPaymentsApplication.currentUserId==-1) {
 			System.out.println("No user logged in");
 		}
-		 for(User u : list) {
-			 if(RunPaymentsApplication.currentUserId == u.getUserId()) {
-				 System.out.println(u.getFirstName()+" "+u.getLastName());
+		else {
+			 for(User u : list) {
+				 if(RunPaymentsApplication.currentUserId == u.getUserId()) {
+					 System.out.println(u.getFirstName()+" "+u.getLastName());
+				 }
 			 }
-			 else {
-				 System.out.println("please enter valid credentials");
-			 }
+			 
 		 }
 		
 	}
@@ -49,7 +51,19 @@ public class UserOperations {
 			   RunPaymentsApplication.currentUserId = userId;
 			}
 		}
-		 
+	public void addMoneyToWallet(double amount) {
+		if(walletList.containsKey(RunPaymentsApplication.currentUserId )) {
+	        walletList.get(RunPaymentsApplication.currentUserId ).setBalance(walletList.get(RunPaymentsApplication.currentUserId ).getBalance()+amount);
+	        System.out.println(walletList.get(RunPaymentsApplication.currentUserId ).getBalance());
+			 
+		}
+	}
+	public double checkWalletBalance(){
+		
+		return walletList.get(RunPaymentsApplication.currentUserId ).getBalance();
+	}
+		
+ 
 		
  
  
