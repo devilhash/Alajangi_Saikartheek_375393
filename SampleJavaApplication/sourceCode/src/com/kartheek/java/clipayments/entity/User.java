@@ -11,6 +11,13 @@ public class User {
 	private String communicationAddr;
 	private List<BankAccount> bankList = new ArrayList<BankAccount>();
 	
+	public List<BankAccount> getBankList() {
+		return bankList;
+	}
+	public void setBankList(List<BankAccount> bankList) {
+		this.bankList = bankList;
+	}
+
 	private int userId;
 	private String password;
 	

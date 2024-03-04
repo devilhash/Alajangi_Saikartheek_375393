@@ -1,6 +1,8 @@
 package com.kartheek.java.clipayments;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,8 @@ import java.util.Scanner;
 
 import com.kartheek.java.clipayments.entity.AcctType;
 import com.kartheek.java.clipayments.entity.BankAccount;
+import com.kartheek.java.clipayments.entity.Transaction;
+import com.kartheek.java.clipayments.entity.TransactionType;
 import com.kartheek.java.clipayments.entity.User;
 import com.kartheek.java.clipayments.entity.Wallet;
 
@@ -15,9 +19,13 @@ public class RunPaymentsApplication {
 
 	static int x=10;
    static List<User> userList = new ArrayList<User> ();
+   static List<BankAccount> acctList = new ArrayList<BankAccount> ();
+   
+   
    static int currentUserId = -1;
  
     public static Map<Integer, Wallet> walletList = new HashMap<Integer,Wallet>();
+   
 	 
     
 
@@ -45,7 +53,10 @@ public class RunPaymentsApplication {
 			System.out.println("4. List of Users");
 			System.out.println("5. Current User");
 			System.out.println("6.Add money to Wallet");
-			System.out.println("7.logout user");
+			System.out.println("7.Check Wallet Balance");
+			System.out.println("8.Get Account List     ");
+			System.out.println("9.log out");
+			System.out.println("10.Transaction");
 			System.out.println("-1. Quit ");
 
 
@@ -97,8 +108,14 @@ public class RunPaymentsApplication {
 			else if(optStr.equalsIgnoreCase("7")) {
 			 
 				System.out.println(ops.checkWalletBalance());
-			}else if(optStr.equalsIgnoreCase("8")) {
+			}else if(optStr.equalsIgnoreCase("9")) {
 				  logout();
+			}
+			else if(optStr.equalsIgnoreCase("8")) {
+				printUserBAnkAcctsList();
+			}
+			else if(optStr.equalsIgnoreCase("10")) {
+				transaction() ;
 			}
 			else {
 				
@@ -166,6 +183,7 @@ public class RunPaymentsApplication {
 	}
 	private static void addBankAccount() {
 		BankAccount bankAccount = new BankAccount();
+		UserOperations ops = new UserOperations();
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter Bank Name : ");
 		String bankName = sc.next();
@@ -199,8 +217,19 @@ public class RunPaymentsApplication {
 		bankAccount.setIFSC(ifsc);
 		bankAccount.setAcctPin(pin);
 		bankAccount.setUserid(currentUserId);
+		List<BankAccount> temp = new ArrayList<>();;
+		for(User u : userList) {
+			if(u.getUserId()==currentUserId) {
+				u.getBankList().add(bankAccount);	
+			}
+		}
+		acctList.add(bankAccount);
+	  
+		 
+		 
 		
-		System.out.println(bankAccount);
+		 
+		
 		 
 		
 		
@@ -240,5 +269,75 @@ public class RunPaymentsApplication {
 		return actType;
 		
 	}
+	/**
+	 * 
+	 */
+	public static void printUserBAnkAcctsList() {
+		UserOperations ops = new UserOperations();
+		Map<User,List<BankAccount>> mapItems = ops.getBankAccountList();
+
+		for(User u:mapItems.keySet()) {
+			if(u.getUserId()==currentUserId) {
+			List<BankAccount> //baList = new ArrayList<BankAccount>();
+					baList = mapItems.get(u);
+			System.out.println(u);
+			if(baList != null) {
+				for(BankAccount ba: baList) {
+					System.out.println("--"+ba.getAcctNumber());
+				}
+			}
+			}
+			
+		}
+	}
+	public static void transaction() {
+		 if(currentUserId!= -1) {
+		    Scanner sc = new Scanner(System.in);
+		    Transaction transaction = new Transaction();
+		     LocalDate date = LocalDate.now();
+		     UserOperations ops = new UserOperations();
+		    int i = 1;
+			 for(TransactionType transactionType : TransactionType.values()) {
+				 System.out.println(i+" "+transactionType);
+				 i++;
+			 }
+			 System.out.println("select an option to perform : ");
+			 int option = sc.nextInt();
+			 if(option==1) {
+				 transaction.setTransactionType(TransactionType.DEBIT);
+			 }
+			 else if(option==2) {
+				 transaction.setTransactionType(TransactionType.CREDIT);
+			 }
+			 Wallet source = walletList.get(currentUserId);
+			 transaction.setSourceWallet(source);
+			 System.out.println("enter receiver userId : ");
+			 int receiver = sc.nextInt();
+			 Wallet destination = walletList.get(receiver);
+			 transaction.setDestinationWallet(destination);
+			 System.out.println("Enter Transaction Amount : ");
+			 double tAmount = sc.nextDouble();
+			 transaction.setTransactionAmount(tAmount);
+			 transaction.setTransactionDate(date);
+			 transaction.setTransactionId(date.toString() );
+			 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
+			 if(result==true) {
+				 System.out.println("transaction completed");
+				 System.out.println("your current balance : "+source.getBalance());
+			 }
+			 else {
+				 System.out.println("transaction failed");
+			 }
+		 
+			 
+			 
+			 
+		 }else {
+			 System.out.println("user must login to do transaction");
+		 }
+		
+	}
+	 
+	
 
 }
