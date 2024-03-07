@@ -47,5 +47,10 @@ public class Transaction {
 	public void setDestinationWallet(Wallet destinationWallet) {
 		this.destinationWallet = destinationWallet;
 	}
+	
+	@Override
+	public String toString() {
+		return  "Transaction Id : " + this.transactionId.toString() + "\n" + "\n Time : "+this.transactionDate +"\n"+ this.transactionType + "\n Amount : " + this.transactionAmount + "\n From : " + this.sourceWallet.getUserId() + "\n To : " +this.destinationWallet.getUserId(); 
+	}
 
 }

@@ -322,8 +322,9 @@ public class RunPaymentsApplication {
 			 transaction.setTransactionId(date.toString() );
 			 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
 			 if(result==true) {
-				 System.out.println("transaction completed");
-				 System.out.println("your current balance : "+source.getBalance());
+//				 System.out.println("transaction completed");
+//				 System.out.println("your current balance : "+source.getBalance());
+				 System.out.println(transaction);
 			 }
 			 else {
 				 System.out.println("transaction failed");
