@@ -1,6 +1,7 @@
 package com.kartheek.java.clipayments.entity;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
+import java.util.Date;
 
 public class Transaction {
 	TransactionType transactionType;
@@ -11,8 +12,8 @@ public class Transaction {
 	public void setTransactionAmount(Double transactionAmount) {
 		this.transactionAmount = transactionAmount;
 	}
-	LocalDate transactionDate;
-	String transactionId;
+    Date transactionDate;
+    long transactionId;
 	Wallet sourceWallet;
 	Wallet destinationWallet;
 	
@@ -23,18 +24,13 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 	 
-	public LocalDate getTransactionDate() {
+	public Date getTransactionDate() {
 		return transactionDate;
 	}
-	public void setTransactionDate(LocalDate transactionDate) {
+	public void setTransactionDate(Date transactionDate) {
 		this.transactionDate = transactionDate;
 	}
-	public String getTransactionId() {
-		return transactionId;
-	}
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
+ 
 	public Wallet getSourceWallet() {
 		return sourceWallet;
 	}
@@ -50,7 +46,12 @@ public class Transaction {
 	
 	@Override
 	public String toString() {
-		return  "Transaction Id : " + this.transactionId.toString() + "\n" + "\n Time : "+this.transactionDate +"\n"+ this.transactionType + "\n Amount : " + this.transactionAmount + "\n From : " + this.sourceWallet.getUserId() + "\n To : " +this.destinationWallet.getUserId(); 
+		return  "Transaction Id : " + this.transactionId + "\n" + "\n Time : "+this.transactionDate +"\n"+ this.transactionType + "\n Amount : " + this.transactionAmount  ;}
+	public long getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
 }

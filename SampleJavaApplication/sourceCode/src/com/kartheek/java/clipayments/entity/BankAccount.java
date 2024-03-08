@@ -1,6 +1,21 @@
 package com.kartheek.java.clipayments.entity;
 
 public class BankAccount {
+	private String acctNumber;
+	private String IFSC;
+	private String acctPin;
+	private String bankName;
+	private AcctType acctType;
+	private int userid;
+	private double acctBalance;
+	
+	
+	public double getAcctBalance() {
+		return acctBalance;
+	}
+	public void setAcctBalance(double acctBalance) {
+		this.acctBalance = acctBalance;
+	}
 	public String getAcctNumber() {
 		return acctNumber;
 	}
@@ -37,12 +52,7 @@ public class BankAccount {
 	public void setUserid(int userid) {
 		this.userid = userid;
 	}
-	private String acctNumber;
-	private String IFSC;
-	private String acctPin;
-	private String bankName;
-	private AcctType acctType;
-	private int userid;
+	 
 	
 	
 	

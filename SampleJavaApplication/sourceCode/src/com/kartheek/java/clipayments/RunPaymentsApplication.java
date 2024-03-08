@@ -294,7 +294,7 @@ public class RunPaymentsApplication {
 		 if(currentUserId!= -1) {
 		    Scanner sc = new Scanner(System.in);
 		    Transaction transaction = new Transaction();
-		     LocalDate date = LocalDate.now();
+		      Date date = new Date();
 		     UserOperations ops = new UserOperations();
 		    int i = 1;
 			 for(TransactionType transactionType : TransactionType.values()) {
@@ -319,7 +319,7 @@ public class RunPaymentsApplication {
 			 double tAmount = sc.nextDouble();
 			 transaction.setTransactionAmount(tAmount);
 			 transaction.setTransactionDate(date);
-			 transaction.setTransactionId(date.toString() );
+			 transaction.setTransactionId(date.getTime());
 			 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
 			 if(result==true) {
 //				 System.out.println("transaction completed");
