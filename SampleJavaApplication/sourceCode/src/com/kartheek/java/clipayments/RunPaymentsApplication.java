@@ -116,6 +116,8 @@ public class RunPaymentsApplication {
 			}
 			else if(optStr.equalsIgnoreCase("10")) {
 				transaction() ;
+			}else if(optStr.equalsIgnoreCase("11")) {
+				checkAcctBalance() ;
 			}
 			else {
 				
@@ -217,6 +219,7 @@ public class RunPaymentsApplication {
 		bankAccount.setIFSC(ifsc);
 		bankAccount.setAcctPin(pin);
 		bankAccount.setUserid(currentUserId);
+		bankAccount.setAcctBalance(0);
 		List<BankAccount> temp = new ArrayList<>();;
 		for(User u : userList) {
 			if(u.getUserId()==currentUserId) {
@@ -258,17 +261,17 @@ public class RunPaymentsApplication {
 	private static void logout() {
 		currentUserId = -1;
 	}
-	private static String accountTypeList() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Select Your Account type from the following : ");
-		for(AcctType type : AcctType.values()) {
-			System.out.println("      "+type);
-		}
-		String actType = sc.next();
-		sc.close();
-		return actType;
-		
-	}
+//	private static String accountTypeList() {
+//		Scanner sc = new Scanner(System.in);
+//		System.out.println("Select Your Account type from the following : ");
+//		for(AcctType type : AcctType.values()) {
+//			System.out.println("      "+type);
+//		}
+//		String actType = sc.next();
+//		sc.close();
+//		return actType;
+//		
+//	}
 	/**
 	 * 
 	 */
@@ -309,26 +312,62 @@ public class RunPaymentsApplication {
 			 else if(option==2) {
 				 transaction.setTransactionType(TransactionType.CREDIT);
 			 }
-			 Wallet source = walletList.get(currentUserId);
-			 transaction.setSourceWallet(source);
-			 System.out.println("enter receiver userId : ");
-			 int receiver = sc.nextInt();
-			 Wallet destination = walletList.get(receiver);
-			 transaction.setDestinationWallet(destination);
-			 System.out.println("Enter Transaction Amount : ");
-			 double tAmount = sc.nextDouble();
-			 transaction.setTransactionAmount(tAmount);
-			 transaction.setTransactionDate(date);
-			 transaction.setTransactionId(date.getTime());
-			 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
-			 if(result==true) {
+//			 Wallet source = walletList.get(currentUserId);
+//			 transaction.setSourceWallet(source);
+//			 System.out.println("enter receiver userId : ");
+//			 int receiver = sc.nextInt();
+//			 Wallet destination = walletList.get(receiver);
+//			 transaction.setDestinationWallet(destination);
+//			 System.out.println("Enter Transaction Amount : ");
+//			 double tAmount = sc.nextDouble();
+//			 transaction.setTransactionAmount(tAmount);
+//			 transaction.setTransactionDate(date);
+//			 transaction.setTransactionId(date.getTime());
+//			 
+//			 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
+//			 if(result==true) {
 //				 System.out.println("transaction completed");
-//				 System.out.println("your current balance : "+source.getBalance());
-				 System.out.println(transaction);
-			 }
-			 else {
-				 System.out.println("transaction failed");
-			 }
+////				 System.out.println("your current balance : "+source.getBalance());
+//				 System.out.println(transaction);
+//			 }
+//			 else {
+//				 System.out.println("transaction failed");
+//			 }
+			 System.out.println("Enter sender bankaccount number : ");
+			 String senderAcctNum = sc.next();
+			 BankAccount source = null;
+			 List<BankAccount> userAccountList = new ArrayList<BankAccount>();
+			 Map<User,List<BankAccount>> mapItems = ops.getBankAccountList();
+				for(User u:mapItems.keySet()) {
+					if(u.getUserId()==currentUserId) {
+						userAccountList =  mapItems.get(u);
+					}
+				}
+				for(BankAccount b : userAccountList) {
+					if(b.getAcctNumber().equals(senderAcctNum)) {
+						source = b;
+					}
+				}
+				if(source == null) {
+					System.out.println("number you have entered is not in you list");
+				}
+				 System.out.println("Enter sender bankaccount number : ");
+				 String recieverAcctNum = sc.next();
+				 BankAccount destination = null;
+				 for(BankAccount b : acctList) {
+					 if(b.getAcctNumber().equals(recieverAcctNum)) {
+						 destination = b;
+					 }
+				 }
+				 System.out.println("Enter Transaction Amount : ");
+				 double tAmount = sc.nextDouble();
+				 transaction.setTransactionAmount(tAmount);
+				 transaction.setTransactionDate(date);
+				 transaction.setTransactionId(date.getTime());
+				 transaction.setSourceAcct(source);
+				 transaction.setDestinationAcct(destination);
+				 
+					 
 		 
 			 
 			 
@@ -338,7 +377,21 @@ public class RunPaymentsApplication {
 		 }
 		
 	}
+	public static void checkAcctBalance() {
+		System.out.println("Enter account number");
+		 Scanner sc = new Scanner(System.in);
+		 String acctNum = sc.next();
+		 for(BankAccount b : acctList) {
+			 if(b.getAcctNumber().equals(acctNum)) {
+				 System.out.println( b.getAcctBalance());
+			 }
+		 }
+		
+	}
 	 
 	
 
-}
+ 
+	}
+ 
+

@@ -87,6 +87,16 @@ Map<User,List<BankAccount>> userBankAcctMap = new HashMap<User,List<BankAccount>
 		
 		 
 	}
+	public boolean doTransaction(BankAccount sender , BankAccount receiver , TransactionType tType,double amount) {
+		if(sender.getAcctBalance()>amount) {
+			receiver.setAcctBalance(receiver.getAcctBalance()+amount);
+			sender.setAcctBalance(sender.getAcctBalance()-amount);
+			return true;
+		}
+		return false;
+		
+		 
+	}
 		
  
 		

@@ -12,10 +12,24 @@ public class Transaction {
 	public void setTransactionAmount(Double transactionAmount) {
 		this.transactionAmount = transactionAmount;
 	}
-    Date transactionDate;
+    public BankAccount getSourceAcct() {
+		return sourceAcct;
+	}
+	public void setSourceAcct(BankAccount sourceAcct) {
+		this.sourceAcct = sourceAcct;
+	}
+	public BankAccount getDestinationAcct() {
+		return destinationAcct;
+	}
+	public void setDestinationAcct(BankAccount destinationAcct) {
+		this.destinationAcct = destinationAcct;
+	}
+	Date transactionDate;
     long transactionId;
 	Wallet sourceWallet;
 	Wallet destinationWallet;
+	BankAccount sourceAcct;
+	BankAccount destinationAcct;
 	
 	public TransactionType getTransactionType() {
 		return transactionType;
