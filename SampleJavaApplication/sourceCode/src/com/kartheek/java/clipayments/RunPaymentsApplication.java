@@ -57,6 +57,7 @@ public class RunPaymentsApplication {
 			System.out.println("8.Get Account List     ");
 			System.out.println("9.log out");
 			System.out.println("10.Transaction");
+			System.out.println("11.check Account Balalance");
 			System.out.println("-1. Quit ");
 
 
@@ -219,7 +220,7 @@ public class RunPaymentsApplication {
 		bankAccount.setIFSC(ifsc);
 		bankAccount.setAcctPin(pin);
 		bankAccount.setUserid(currentUserId);
-		bankAccount.setAcctBalance(0);
+		bankAccount.setAcctBalance(1200);
 		List<BankAccount> temp = new ArrayList<>();;
 		for(User u : userList) {
 			if(u.getUserId()==currentUserId) {
@@ -348,24 +349,38 @@ public class RunPaymentsApplication {
 						source = b;
 					}
 				}
-				if(source == null) {
-					System.out.println("number you have entered is not in you list");
-				}
-				 System.out.println("Enter sender bankaccount number : ");
-				 String recieverAcctNum = sc.next();
-				 BankAccount destination = null;
-				 for(BankAccount b : acctList) {
-					 if(b.getAcctNumber().equals(recieverAcctNum)) {
-						 destination = b;
+				if(source != null) {
+					 System.out.println("Enter receiver bankaccount number : ");
+					 String recieverAcctNum = sc.next();
+					 BankAccount destination = null;
+					 for(BankAccount b : acctList) {
+						 if(b.getAcctNumber().equals(recieverAcctNum)) {
+							 destination = b;
+						 }
 					 }
-				 }
-				 System.out.println("Enter Transaction Amount : ");
-				 double tAmount = sc.nextDouble();
-				 transaction.setTransactionAmount(tAmount);
-				 transaction.setTransactionDate(date);
-				 transaction.setTransactionId(date.getTime());
-				 transaction.setSourceAcct(source);
-				 transaction.setDestinationAcct(destination);
+					 System.out.println("Enter Transaction Amount : ");
+					 double tAmount = sc.nextDouble();
+					 transaction.setTransactionAmount(tAmount);
+					 transaction.setTransactionDate(date);
+					 transaction.setTransactionId(date.getTime());
+					 transaction.setSourceAcct(source);
+					 transaction.setDestinationAcct(destination);
+					 
+					 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
+					 if(result==true) {
+						 System.out.println("transaction completed");
+						 System.out.println("your current balance : "+source.getAcctBalance());
+						 System.out.println(transaction);
+					 }
+					 else {
+						 System.out.println("transaction failed");
+					 }
+				} 
+				else {
+					System.out.println("Account not in your list");
+				}
+				 
+				
 				 
 					 
 		 
