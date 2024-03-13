@@ -17,14 +17,14 @@ public class UserOperations {
 		u.setDateOfBirth(dob);
 		u.setCommunicationAddr(addr);
 		u.setPassword(password);
-		
+
 		u.setUserId();
-		
+
 //		FileOps fileOps = new FileOps();
 //		fileOps.userToFile(u);
 		return u;
 	}
-	
+
 	public void printUserList( ){
 	 for(User u : list) {
 		 System.out.println(u);
@@ -41,9 +41,9 @@ public class UserOperations {
 					 System.out.println(u.getFirstName()+" "+u.getLastName());
 				 }
 			 }
-			 
+
 		 }
-		
+
 	}
 
 	public void userLogIn(int userId, String password) {
@@ -58,24 +58,24 @@ public class UserOperations {
 		if(walletList.containsKey(RunPaymentsApplication.currentUserId )) {
 	        walletList.get(RunPaymentsApplication.currentUserId ).setBalance(walletList.get(RunPaymentsApplication.currentUserId ).getBalance()+amount);
 	        System.out.println(walletList.get(RunPaymentsApplication.currentUserId ).getBalance());
-			 
+
 		}
 	}
 	public double checkWalletBalance(){
-		
+
 		return walletList.get(RunPaymentsApplication.currentUserId ).getBalance();
 	}
 	public  Map<User, List<BankAccount>> getBankAccountList(){
-		  
+
 Map<User,List<BankAccount>> userBankAcctMap = new HashMap<User,List<BankAccount>>();
-		
+
 		for(User u:list) {
 			if(list != null) {
 				userBankAcctMap.put(u, u.getBankList());
 			}
 		}
 		return userBankAcctMap;
-		
+
 	}
 	public boolean doTransaction(Wallet sender , Wallet receiver , TransactionType tType,double amount) {
 		if(sender.getBalance()>amount) {
@@ -84,8 +84,8 @@ Map<User,List<BankAccount>> userBankAcctMap = new HashMap<User,List<BankAccount>
 			return true;
 		}
 		return false;
-		
-		 
+
+
 	}
 	public boolean doTransaction(BankAccount sender , BankAccount receiver , TransactionType tType,double amount) {
 		if(sender.getAcctBalance()>amount) {
@@ -94,13 +94,37 @@ Map<User,List<BankAccount>> userBankAcctMap = new HashMap<User,List<BankAccount>
 			return true;
 		}
 		return false;
-		
-		 
+
+
 	}
-		
- 
-		
- 
- 
+	public boolean doTransaction(BankAccount sender , Wallet receiver , TransactionType tType,double amount) {
+		if(sender.getAcctBalance()>amount) {
+			receiver.setBalance(receiver.getBalance()+amount);
+			sender.setAcctBalance(sender.getAcctBalance()-amount);
+			return true;
+		}
+		return false;
+
+
+	}
+	public boolean doTransaction(Wallet sender , BankAccount receiver , TransactionType tType,double amount) {
+		if(sender.getBalance()>amount) {
+			receiver.setAcctBalance(receiver.getAcctBalance()+amount);
+			sender.setBalance(sender.getBalance()-amount);
+			return true;
+		}
+		return false;
+
+
+	}
+	public  void creditAmountToAccount(BankAccount bankAccount,double amount) {
+		bankAccount.setAcctBalance(bankAccount.getAcctBalance()+amount);
+		System.out.println("money added to your account");
+	}
+
+
+
+
+
 
 }
