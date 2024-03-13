@@ -53,6 +53,17 @@ foreign key(UserId) references User(UserId));
 
 describe Transactions;
 
+alter table Transactions
+modify column TransactionDate datetime not null;
+
+insert into Transactions values("21432424",2023-02-12,'CREDIT',34.0,123);
+
+desc User;
+select * from User;
+
+alter table User modify UserId long ;
+ 
+
  
 
 

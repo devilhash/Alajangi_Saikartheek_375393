@@ -1,5 +1,6 @@
 package com.kartheek.java.clipayments;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +15,7 @@ import com.kartheek.java.clipayments.entity.Transaction;
 import com.kartheek.java.clipayments.entity.TransactionType;
 import com.kartheek.java.clipayments.entity.User;
 import com.kartheek.java.clipayments.entity.Wallet;
+import com.kartheek.java.clipayments.sql.SqlDAO;
 
 public class RunPaymentsApplication {
 
@@ -148,6 +150,13 @@ public class RunPaymentsApplication {
 		String password = opt.next();
 				UserOperations ops = new UserOperations();
 				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
+				
+				try {
+					SqlDAO sqlDao = new SqlDAO();
+					sqlDao.addUserToDataBase(u);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 
 			     userList.add(u);
 			   Wallet wallet = new Wallet();
@@ -221,13 +230,26 @@ public class RunPaymentsApplication {
 		bankAccount.setAcctPin(pin);
 		bankAccount.setUserid(currentUserId);
 		bankAccount.setAcctBalance(1200);
-		List<BankAccount> temp = new ArrayList<>();;
+		List<BankAccount> temp = new ArrayList<>();
 		for(User u : userList) {
 			if(u.getUserId()==currentUserId) {
 				u.getBankList().add(bankAccount);	
 			}
 		}
 		acctList.add(bankAccount);
+		try {
+			SqlDAO sqlDao = new SqlDAO();
+			sqlDao.addAccountToDataBase(bankAccount);
+			
+		}
+		catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
 
 
 
