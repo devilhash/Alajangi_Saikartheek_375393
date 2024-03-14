@@ -7,6 +7,7 @@ import java.sql.Statement;
 //import java.util.Date;
 
 import com.kartheek.java.clipayments.entity.BankAccount;
+import com.kartheek.java.clipayments.entity.Transaction;
 import com.kartheek.java.clipayments.entity.User;
 
 public class SqlDAO {
@@ -28,7 +29,14 @@ public class SqlDAO {
 	 }
 	 public void addAccountToDataBase(BankAccount b) throws SQLException {
 		 Statement st = con.createStatement();
-		 String query = "insert into User "+"values('"+b.getUserid()+"','"+b.getAcctNumber()+"','"+b.getBankName()+"','"+b.getIFSC()+"',"+b.getAcctType()+"','"+b.getAcctBalance();
+		 String query = "insert into bankaccount "+"values('"+b.getUserid()+"','"+b.getAcctNumber()+"','"+b.getBankName()+"','"+b.getIFSC()+"','"+b.getAcctType()+"','"+b.getAcctBalance()+"')";
+		 st.executeUpdate(query);
+		 System.out.println(query);
+		 con.close();
+	 }
+	 public void  addTransactionDetailsToDataBase(Transaction t) throws SQLException {
+		 Statement st = con.createStatement();
+		 String query = "insert into transactions "+"values('"+t.getTransactionId()+"','"+t.getTransactionDate()+"','"+t.getTransactionType()+"','"+t.getTransactionAmount()+"','"+t.getUserId()+"','"+t.getSourceAcct().getAcctNumber()+"')";
 		 st.executeUpdate(query);
 		 System.out.println(query);
 		 con.close();

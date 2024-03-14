@@ -1,6 +1,7 @@
 package com.kartheek.java.clipayments;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +25,7 @@ public class RunPaymentsApplication {
    static List<BankAccount> acctList = new ArrayList<BankAccount> ();
 
 
-   static int currentUserId = -1;
+   public static int currentUserId = -1;
 
     public static Map<Integer, Wallet> walletList = new HashMap<Integer,Wallet>();
 
@@ -97,7 +98,13 @@ public class RunPaymentsApplication {
 
 
 			}else if(optStr.equalsIgnoreCase("3")) {
-				addBankAccount();
+				if(currentUserId!=-1) {
+					addBankAccount();
+				}
+				else {
+					System.out.println("User must logIn to add bankAccount");
+				}
+				 
 
 			}else if(optStr.equalsIgnoreCase("4")) {
 				ops.printUserList( );
@@ -320,6 +327,7 @@ public class RunPaymentsApplication {
 		 if(currentUserId!= -1) {
 		    Scanner sc = new Scanner(System.in);
 		    Transaction transaction = new Transaction();
+		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		      Date date = new Date();
 		     UserOperations ops = new UserOperations();
 		    int i = 1;
@@ -342,7 +350,7 @@ public class RunPaymentsApplication {
 				 System.out.println("Enter Transaction Amount : ");
 				 double tAmount = sc.nextDouble();
 				 transaction.setTransactionAmount(tAmount);
-				 transaction.setTransactionDate(date);
+				 transaction.setTransactionDate(formatter.format(date));
 				 transaction.setTransactionId(date.getTime());
 
 				 switch(transferType) {
@@ -459,7 +467,7 @@ public class RunPaymentsApplication {
 
 			 else if(option==2) {
 				 transaction.setTransactionType(TransactionType.CREDIT);
-				 transaction.setTransactionDate(date);
+				 transaction.setTransactionDate(formatter.format(date));
 				 transaction.setTransactionId(date.getTime());
 				 System.out.println("Enter Account Number : ");
 				 String targetAcctNum = sc.next ();
@@ -481,6 +489,19 @@ public class RunPaymentsApplication {
 					transaction.setSourceAcct(source);
 					ops.creditAmountToAccount(source, tAmount);
 			 }
+			 
+			  try {
+				  SqlDAO sqlDao = new SqlDAO();
+				  sqlDao.addTransactionDetailsToDataBase(transaction);
+			  }catch(ClassNotFoundException e) {
+				  e.printStackTrace();
+			  }
+			  catch(SQLException e) {
+				  e.printStackTrace();
+			  }
+			  catch(Exception e) {
+				   e.printStackTrace();
+			  }
 
 
 
@@ -500,35 +521,7 @@ public class RunPaymentsApplication {
 		 }
 
 	}
-	public static void walletToWallet(Transaction transaction) {
-		 Date date = new Date();
-		Scanner sc = new Scanner(System.in);
-		 UserOperations ops = new UserOperations();
-		 Wallet source = walletList.get(currentUserId);
-		 transaction.setSourceWallet(source);
-		 System.out.println("enter receiver userId : ");
-		 int receiver = sc.nextInt();
-		 Wallet destination = walletList.get(receiver);
-		 transaction.setDestinationWallet(destination);
-		 System.out.println("Enter Transaction Amount : ");
-		 double tAmount = sc.nextDouble();
-		 transaction.setTransactionAmount(tAmount);
-		 transaction.setTransactionDate(date);
-		 transaction.setTransactionId(date.getTime());
-
-		 boolean result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
-		 if(result==true) {
-			 System.out.println("transaction completed");
-			 System.out.println("your current balance : "+source.getBalance());
-			 System.out.println(transaction);
-		 }
-		 else {
-			 System.out.println("transaction failed");
-		 }
-
-
-	}
-
+	 
 
 
 
