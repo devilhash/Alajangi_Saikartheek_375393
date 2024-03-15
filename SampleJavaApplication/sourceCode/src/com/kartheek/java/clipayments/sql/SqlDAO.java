@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import com.kartheek.java.clipayments.entity.BankAccount;
 import com.kartheek.java.clipayments.entity.Transaction;
+import com.kartheek.java.clipayments.entity.TransactionType;
 import com.kartheek.java.clipayments.entity.User;
 
 public class SqlDAO {
@@ -36,9 +37,18 @@ public class SqlDAO {
 	 }
 	 public void  addTransactionDetailsToDataBase(Transaction t) throws SQLException {
 		 Statement st = con.createStatement();
-		 String query = "insert into transactions "+"values('"+t.getTransactionId()+"','"+t.getTransactionDate()+"','"+t.getTransactionType()+"','"+t.getTransactionAmount()+"','"+t.getUserId()+"','"+t.getSourceAcct().getAcctNumber()+"')";
+		 if(t.getTransactionType()==TransactionType.DEBIT) {
+		 String query = "insert into transactions(TransactionId,TransactionDate,TransactionType,TransactionAmount,UserId,to_account_number,to_wallet) "+"values('"+t.getTransactionId()+"','"+t.getTransactionDate()+"','"+t.getTransactionType()+"','"+t.getTransactionAmount()+"','"+t.getUserId()+"','"+t.getDestinationAcct().getAcctNumber()+"','"+t.getDestinationWallet().getUserId()+"')";
 		 st.executeUpdate(query);
 		 System.out.println(query);
+		 String queryrecip = "insert into transactions(TransactionId,TransactionDate,TransactionType,TransactionAmount,UserId,from_account_number,from_wallet)  "+"values('"+t.getTransactionId()+"','"+t.getTransactionDate()+"','"+TransactionType.CREDIT+"','"+t.getTransactionAmount()+"','"+t.getUserId()+"','"+t.getSourceAcct().getAcctNumber()+"','"+t.getSourceWallet().getUserId()+"')";
+		 st.executeUpdate(query);
+		 System.out.println(query);
+		 }else {
+			 String query = "insert into transactions(TransactionId,TransactionDate,TransactionType,TransactionAmount,UserId,from_account_number,from_wallet)  "+"values('"+t.getTransactionId()+"','"+t.getTransactionDate()+"','"+TransactionType.CREDIT+"','"+t.getTransactionAmount()+"','"+t.getUserId()+"','"+t.getSourceAcct().getAcctNumber()+"','"+t.getSourceWallet().getUserId()+"')";
+			 st.executeUpdate(query);
+			 System.out.println(query);
+		 }
 		 con.close();
 	 }
 }

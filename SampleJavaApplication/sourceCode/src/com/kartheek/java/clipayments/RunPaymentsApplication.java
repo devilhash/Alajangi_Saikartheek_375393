@@ -352,6 +352,7 @@ public class RunPaymentsApplication {
 				 transaction.setTransactionAmount(tAmount);
 				 transaction.setTransactionDate(formatter.format(date));
 				 transaction.setTransactionId(date.getTime());
+				 transaction.setUserId();
 
 				 switch(transferType) {
 				 case 1 :   Wallet source = walletList.get(currentUserId);
@@ -430,8 +431,14 @@ public class RunPaymentsApplication {
 					 transaction.setDestinationWallet(destinationWallet);
 					 result =ops.doTransaction(sourceBankToWallet, destinationWallet, transaction.getTransactionType(),tAmount);
 					 if(result) {
-						 System.out.println("transaction successful");
-					 }
+//						 Transaction recipientTransaction = new Transaction();
+//						 recipientTransaction.setTransactionAmount(tAmount);
+//						 transaction.setTransactionDate(formatter.format(date));
+//						 recipientTransaction.setTransactionId(date.getTime());
+//						 recipientTransaction.setUserId( destinationWallet.getUserId());
+//						 recipientTransaction.setSourceAcct(sourceBankToWallet);
+						 System.out.println("Transaction successful");
+						 }
 					 else {
 						 System.out.println("Transaction failed");
 					 }
@@ -469,6 +476,7 @@ public class RunPaymentsApplication {
 				 transaction.setTransactionType(TransactionType.CREDIT);
 				 transaction.setTransactionDate(formatter.format(date));
 				 transaction.setTransactionId(date.getTime());
+				 transaction.setUserId();
 				 System.out.println("Enter Account Number : ");
 				 String targetAcctNum = sc.next ();
 				 System.out.println("Enter Transaction Amount : ");

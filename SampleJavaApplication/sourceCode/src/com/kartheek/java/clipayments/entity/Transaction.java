@@ -37,8 +37,11 @@ public class Transaction {
 	public int getUserId() {
 		return UserId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId() {
 		UserId = RunPaymentsApplication.currentUserId;
+	}
+	public void setUserId(int userId) {
+		UserId = userId;
 	}
 	public TransactionType getTransactionType() {
 		return transactionType;
