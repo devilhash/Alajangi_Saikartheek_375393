@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel = "stylesheet" href="style.css"/>
+ 
 </head>
 <body>
     <script>
         function randomColor(){
-            var a = ["red","yellow","blue","green"];
+            var a = ["black", "white", "gray", "silver", "maroon", "red", "purple", "fushsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal","aqua"];
             var randomIndex = Math.floor(Math.random()*a.length);
             document.getElementById("randomColor").style.backgroundColor  = a[randomIndex]  ;
             return  document.getElementById("randomColor").style.backgroundColor;
              
 
         }
+  
     </script>
-    <center><div id= "randomColor" onclick="change()"> 
+    <center><div id= "randomColor" onclick = randomColor()> 
         <script>
             randomColor();
         </script>
@@ -26,16 +28,25 @@
     <center><div id = "colorSeletor"> </div></center> 
     <script>
         var container = document.getElementById("colorSeletor");
-        var a = ["red","yellow","blue","green"];
+        var a = ["black", "white", "gray", "silver", "maroon", "red", "purple", "fushsia", "green", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"];
 
-for (var i = 0; i < 10; i++) {
-    var div = document.createElement("div");
-    div.style.width = "100px";
-    div.style.height = "100px";
-    div.style.backgroundColor = a[i];
-    div.style.margin = "5px";
-    div.style.display = "inline-block"
-    container.appendChild(div);
+for (var i = 0; i < a.length; i++) {
+    var btn = document.createElement("button");
+    btn.classList.add("colors");
+    //var randomIndex = Math.floor(Math.random()*a.length);
+    btn.style.backgroundColor = a[i];
+   // btn.textContent =  a[i];
+    btn.addEventListener("click",(event)=>{
+        var color = event.target.style.backgroundColor;
+         if(document.getElementById("randomColor").style.backgroundColor=== color ){
+            randomColor();
+            alert("yes");
+         }
+         else{
+            alert("no");
+         }
+    })
+    container.appendChild(btn);
 }
     </script>
  
