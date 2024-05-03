@@ -27,7 +27,9 @@
    <% ArrayList<BankAccount> list = (ArrayList<BankAccount>) session.getAttribute("bankList"); 
    if(list.size()==0){%>
     <div class="account_details">
-           <button  onclick="window.location.href = 'addbank.jsp'">add account</button>
+           <form action = "http://localhost:8080/WebBankApplication/addbank.jsp">
+           <input type = "submit" value="addBank" class = "addaccount"/>
+           </form>
     </div>
    
    
@@ -54,7 +56,9 @@
        </div>
           
    <%} %>
-   <button  onclick="window.location.href = 'addbank.jsp'">add account</button>
+     <form action = "http://localhost:8080/WebBankApplication/addbank.jsp">
+           <input type = "submit" value="addBank" class = "addaccount"/>
+           </form>
    <%} %>
    </div>
    

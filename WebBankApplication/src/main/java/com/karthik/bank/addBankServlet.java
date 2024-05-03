@@ -43,8 +43,8 @@ public class addBankServlet extends HttpServlet {
 		 String bankName = request.getParameter("bankname");
 		 String ifsc = request.getParameter("ifsccode");
 		 String pin =  request.getParameter("pin");
-//		 HttpSession session = request.getSession();
-//		 int userId =  (int)session.getAttribute("userId");
+		 HttpSession session = request.getSession();
+		 int userId =  (int)session.getAttribute("userId");
 		 BankAccount b = new BankAccount();
 		 b.setAcctBalance(500);
 		 b.setAcctNumber(acctNo);
@@ -52,7 +52,7 @@ public class addBankServlet extends HttpServlet {
 		 b.setIfsc(ifsc);
 		 b.setAccTypeId(1);
 		 b.setPin(Integer.parseInt(pin));
-		 b.setUserId(1001);
+		 b.setUserId(userId);
 		 try {
 			BankAccountDAO bdao = new BankAccountDAO();
 			if(bdao.addAcct(b)>0) {
