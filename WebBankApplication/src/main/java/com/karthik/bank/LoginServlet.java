@@ -25,18 +25,30 @@ public class LoginServlet extends HttpServlet {
 
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userName = request.getParameter("user");
+		String userName = request.getParameter("phonenumber");
 		String password = request.getParameter("password");
+		int userId = 0;
+		String fullName = null;
 		try {
-			UserDAO dao= new UserDAO();
-			if(dao.userAuth(userName, password)) {
-				response.getWriter().write("welcome "+userName);
-			HttpSession session = request.getSession();
-			session.setAttribute("user", userName);
-			RequestDispatcher rd = request.getRequestDispatcher("/dashboard.jsp");
-			rd.forward(request, response);
+		    UserDAO dao = new UserDAO();
+			userId = dao.userAuth(userName, password);
+			fullName = dao.userDetails(userId);
+			if(userId!=0) {
+				HttpSession session = request.getSession();
+				session.setAttribute("userId", userId);
+				session.setAttribute("name",  fullName);
+				RequestDispatcher acctListrd = request.getRequestDispatcher("getAcctListServlet");
+				acctListrd.forward(request, response);
 			}
+					 
+  
 			
+			else {
+				HttpSession session = request.getSession();
+				session.setAttribute("msg",  "log in failed please enter valid credentials");
+				RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+				rd.forward(request, response);
+			}
 		} catch (ClassNotFoundException e) {
 			 
 			e.printStackTrace();

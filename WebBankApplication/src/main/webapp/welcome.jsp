@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,10 +31,10 @@
             </div>  
         </div>
         <div class = "loginbtn">
-            <a href="login.html"><button type="button" class="btn ">login</button></a>
+            <a href="login.jsp"><button type="button" class="btn ">login</button></a>
         </div>
         <div class = "register">
-            <p >Don't have account <a href="register.html">clickhere</a>  to Register</p>
+            <p >Don't have account <a href="register.jsp">clickhere</a>  to Register</p>
         </div>
     
     

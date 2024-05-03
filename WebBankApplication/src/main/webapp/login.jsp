@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +20,21 @@
          <div class ="col-sm-6" id = "login-form" >
            <div style="margin-top: 90px;">
             <h3>LogIn</h3>
-            <form  action="http://localhost:8080/WebBankApplication/LoginServlet" method = "POST">
+            <% String msg =null;
+            String rmsg = null;
+            msg =(String) session.getAttribute("msg");
+            rmsg =(String) session.getAttribute("regmsg");
+            if(msg!=null){%>
+           <center><h6 style="color: red;"><%=msg %></h6></center>  <%} 
+            if(rmsg!=null){%>
+            <center> <h6 style="color: green;"><%=rmsg %></h6></center>   <%} %>
+             
+          
+            
+            
+            <form  action="http://localhost:8080/WebBankApplication/LoginServlet"  method = "POST">
                 <div class = "row" >
-                    <input type="text" placeholder="email/username" name="user" class ="details" >
+                    <input type="text" placeholder="phonenumber" name="phonenumber" class ="details" >
                 </div>
                 <div class = "row"  >
                     <input type="password" placeholder="password"  name="password" class ="details">

@@ -31,4 +31,25 @@
     <url-pattern>/RegisterServlet</url-pattern>
     <url-pattern>/register</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>getAcctListServlet</display-name>
+    <servlet-name>getAcctListServlet</servlet-name>
+    <servlet-class>com.karthik.bank.getAcctListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getAcctListServlet</servlet-name>
+    <url-pattern>/getAcctListServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>addBankServlet</display-name>
+    <servlet-name>addBankServlet</servlet-name>
+    <servlet-class>com.karthik.bank.addBankServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addBankServlet</servlet-name>
+    <url-pattern>/addBankServlet</url-pattern>
+    <url-pattern>/addbank</url-pattern>
+  </servlet-mapping>
 </web-app>
