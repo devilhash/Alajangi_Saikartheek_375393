@@ -56,7 +56,7 @@ public class addBankServlet extends HttpServlet {
 		 try {
 			BankAccountDAO bdao = new BankAccountDAO();
 			if(bdao.addAcct(b)>0) {
-				RequestDispatcher rd = request.getRequestDispatcher("/dashboard.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("jsps/dashboard.jsp");
 				rd.forward(request, response);
 			}
 			

@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 			else {
 				HttpSession session = request.getSession();
 				session.setAttribute("msg",  "log in failed please enter valid credentials");
-				RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("jsps/login.jsp");
 				rd.forward(request, response);
 			}
 		} catch (ClassNotFoundException e) {

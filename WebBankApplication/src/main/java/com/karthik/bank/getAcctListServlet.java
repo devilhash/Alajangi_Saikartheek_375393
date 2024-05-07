@@ -42,7 +42,7 @@ public class getAcctListServlet extends HttpServlet {
 			session.setAttribute("bankList", list);
 //			RequestDispatcher rd = request.getRequestDispatcher("/dashboard.jsp");
 //			rd.forward(request, response);
-			RequestDispatcher rdacct = request.getRequestDispatcher("/dashboard.jsp");
+			RequestDispatcher rdacct = request.getRequestDispatcher("jsps/dashboard.jsp");
 			rdacct.forward(request, response);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
