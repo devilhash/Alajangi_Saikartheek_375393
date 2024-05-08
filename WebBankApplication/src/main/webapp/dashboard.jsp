@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
- <link rel="stylesheet" href = "dashboard.css"/>
+ <link rel = "stylesheet"  href = "dashboard.css"></link>
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
  
@@ -24,7 +24,7 @@
      
    <%@ page import="java.util.ArrayList" %>
    <%@ page import="com.karthik.bank.dto.BankAccount" %>
-   <% ArrayList<BankAccount> list = (ArrayList<BankAccount>) session.getAttribute("bankList"); 
+   <%  ArrayList<BankAccount> list = (ArrayList<BankAccount>) session.getAttribute("bankList"); 
    if(list.size()==0){%>
     <div class="account_details">
            <form action = "http://localhost:8080/WebBankApplication/addbank.jsp">

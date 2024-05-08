@@ -27,7 +27,7 @@
                 <div class = "row" style="margin-left: 30%;"><p>see the difference </p></div>
             </div>
             <div class = "col-sm-6">
-                <img src = "piggy.jpg" />
+                <img src = " piggy.jpg" />
             </div>  
         </div>
         <div class = "loginbtn">

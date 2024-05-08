@@ -3,6 +3,7 @@ package com.karthik.bank;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ public class LoginServlet extends HttpServlet {
 
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 
 		String userName = request.getParameter("phonenumber");
 		String password = request.getParameter("password");
 		int userId = 0;
@@ -37,6 +39,9 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("userId", userId);
 				session.setAttribute("name",  fullName);
+				
+				Cookie co = new Cookie("userId",String.valueOf(userId));
+				response.addCookie(co);
 				RequestDispatcher acctListrd = request.getRequestDispatcher("getAcctListServlet");
 				acctListrd.forward(request, response);
 			}
@@ -46,7 +51,7 @@ public class LoginServlet extends HttpServlet {
 			else {
 				HttpSession session = request.getSession();
 				session.setAttribute("msg",  "log in failed please enter valid credentials");
-				RequestDispatcher rd = request.getRequestDispatcher("jsps/login.jsp");
+				RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
 				rd.forward(request, response);
 			}
 		} catch (ClassNotFoundException e) {

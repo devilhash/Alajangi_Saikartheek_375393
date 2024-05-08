@@ -3,6 +3,7 @@ package com.karthik.bank;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,6 +35,12 @@ public class getAcctListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String cookieName = "userId";
+		Cookie[] cookies = request.getCookies();
+		for(Cookie c : cookies) {
+			
+		}
+		
 		 HttpSession session = request.getSession();
 		 int userId = (int) session.getAttribute("userId");
 		 try {
@@ -42,12 +49,13 @@ public class getAcctListServlet extends HttpServlet {
 			session.setAttribute("bankList", list);
 //			RequestDispatcher rd = request.getRequestDispatcher("/dashboard.jsp");
 //			rd.forward(request, response);
-			RequestDispatcher rdacct = request.getRequestDispatcher("jsps/dashboard.jsp");
+			RequestDispatcher rdacct = request.getRequestDispatcher("/dashboard.jsp");
 			rdacct.forward(request, response);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+ 
+     }
 }

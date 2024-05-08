@@ -53,7 +53,7 @@ public class RegisterServlet extends HttpServlet {
 				 u.setAddress(address);
 				 u.setDob(birthDate);
 				 
-				 response.getWriter().write("<h1>"+dob+"</h1>");
+				  
 				UserDAO dao = new UserDAO();
 				if( dao.addUserInfo(u) >0){
 					HttpSession session = request.getSession();
@@ -64,8 +64,7 @@ public class RegisterServlet extends HttpServlet {
 				  
 				 
 				 
-//				RequestDispatcher rd = request.getRequestDispatcher("/welcome.html");
-//				rd.forward(request, response);.
+				 
 			} catch (ClassNotFoundException e) {
  				e.printStackTrace();
 			} catch (SQLException e) {
@@ -76,10 +75,10 @@ public class RegisterServlet extends HttpServlet {
 			 response.setContentType("text/html");
 			 PrintWriter out = response.getWriter();
 			 out.print("password mismatch");
-			 RequestDispatcher rd = request.getRequestDispatcher("/welcome.html");
+			 RequestDispatcher rd = request.getRequestDispatcher("/welcome.jsp");
 			 rd.include(request, response);
 		 }
-		 
+//		 
 	}
 
 }

@@ -22,7 +22,7 @@ public class UserDAO {
 	
 	public  int addUserInfo(User u) throws SQLException {
 		Statement st = con.createStatement();
-		String query = "insert into user_info (user_id,password,first_name,last_name,address,phNo,date_of_birth)"+ "values('"+u.getUserId()+"','"+u.getPassword()+"','"+u.getFirstName()+"','"+u.getLastName()+"','"+u.getAddress()+"','"+u.getPhNo()+"','"+u.getDob()+"')";
+		String query = "insert into user_info ( password,first_name,last_name,address,phNo,date_of_birth)"+ "values('"+u.getPassword()+"','"+u.getFirstName()+"','"+u.getLastName()+"','"+u.getAddress()+"','"+u.getPhNo()+"','"+u.getDob()+"')";
 		return st.executeUpdate(query);
 	}
 	 
@@ -45,6 +45,18 @@ public class UserDAO {
 			return rs.getString(1)+" "+rs.getString(2);
 		}
 		return null;
+		
+		 
+	}
+	public boolean isUserexist(String userId) throws SQLException {
+		int id = Integer.parseInt(userId);
+		PreparedStatement st = con.prepareStatement("select user_id from user_info where user_id = ?");
+		st.setInt(1,id);
+		ResultSet rs = st.executeQuery() ;
+		 if(rs.next()) {
+			 return true;
+		 }
+		return false;
 		
 		 
 	}

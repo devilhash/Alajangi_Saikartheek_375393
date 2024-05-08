@@ -11,11 +11,24 @@
     <title>login page</title>
 </head>
 <body>
+  <%@ page import = "com.karthik.bank.dao.UserDAO" %>
+  <%  
+    Cookie[] cookies = request.getCookies();
+    UserDAO dao = new UserDAO();
+    for(Cookie c : cookies){
+    	if(c.getName().equals("userId")){
+    		if(dao.isUserexist(c.getValue())){
+    			 request.getRequestDispatcher("getAcctListServlet").forward(request, response);
+    		}
+    	}
+    }
+  
+  %>
     
     <div class ="row" id = "main">
          
          <div class ="col-sm-6" id = "login-img"> 
-            <img src=" banklogo.jpg"  />
+            <img src="  banklogo.jpg"  />
          </div>
          <div class ="col-sm-6" id = "login-form" >
            <div style="margin-top: 90px;">
@@ -32,7 +45,7 @@
           
             
             
-            <form  action="http://localhost:8080/WebBankApplication/LoginServlet"  method = "POST">
+            <form  action="http://localhost:8080/WebBankApplication/login"  method = "POST">
                 <div class = "row" >
                     <input type="text" placeholder="phonenumber" name="phonenumber" class ="details" >
                 </div>
