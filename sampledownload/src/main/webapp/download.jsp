@@ -11,7 +11,9 @@
 <%@ page import = "java.io.File" %>
  <%
 	String contextPath = application.getRealPath( "/");
-	File file = new File(contextPath+"/files");
+    String absolutePath = contextPath+"/files";
+	File file = new File(  absolutePath);
+	request.setAttribute( "filepath", absolutePath);
 	String filesList[] = file.list();
 	for(String s: filesList){	 
  %>
