@@ -1,4 +1,6 @@
 package com.kartheek.java.clipayments;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +11,16 @@ public class UserOperations {
 	 List<User>list = RunPaymentsApplication.userList;
 	 Map<Integer,Wallet> walletList = RunPaymentsApplication.walletList;
 	 List<BankAccount> baList = RunPaymentsApplication.acctList;
-    public User doUserRegistration(String fName, String lName, String password, long phNum, String dob,String addr) throws Exception{
+    public User doUserRegistration(String fName, String lName, String password, long phNum, LocalDate dob,String addr) throws Exception{
 		User u = new User();
 		u.setFirstName(fName);
 		u.setLastName(lName);
 		u.setPhoneNum(phNum);
-		u.setDateOfBirth(dob);
+		u.setDateOfBirth(dob );
 		u.setCommunicationAddr(addr);
 		u.setPassword(password);
 
-		u.setUserId();
+//		u.setUserId();
 
 //		FileOps fileOps = new FileOps();
 //		fileOps.userToFile(u);

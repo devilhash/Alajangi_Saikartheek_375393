@@ -32,7 +32,7 @@ public class FileOps  {
 			user.setFirstName(usrDet[1]);
 			user.setLastName(usrDet[2]);
 			user.setPhoneNum(Long.parseLong(usrDet[3]));
-			user.setDateOfBirth(usrDet[4]);
+//			user.setDateOfBirth(usrDet[4]);
 			user.setCommunicationAddr(usrDet[5]);
 			
 			userObjectList.add(user);

@@ -3,6 +3,7 @@ package com.kartheek.java.clipayments;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -111,18 +112,45 @@ public class RunPaymentsApplication {
 			}else if(optStr.equalsIgnoreCase("-1")) {
 				break;
 			}else if(optStr.equalsIgnoreCase("5")) {
-				 ops.currentUser();
+				  try {
+					SqlDAO dao = new SqlDAO();
+					 System.out.println(dao.getCurrentUser());
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}else if(optStr.equalsIgnoreCase("6")) {
 				   addMoney();
 			}
 			else if(optStr.equalsIgnoreCase("7")) {
+				try {
+					SqlDAO dao = new SqlDAO();
+					System.out.println("WalletBalance :"+dao.showWalletBalance());
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-				System.out.println(ops.checkWalletBalance());
 			}else if(optStr.equalsIgnoreCase("9")) {
 				  logout();
 			}
 			else if(optStr.equalsIgnoreCase("8")) {
-				printUserBAnkAcctsList();
+				try {
+					SqlDAO dao = new SqlDAO();
+					dao.showBankAcounts();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			else if(optStr.equalsIgnoreCase("10")) {
 				transaction() ;
@@ -150,13 +178,18 @@ public class RunPaymentsApplication {
 		System.out.println("Phone Number:");
 		long phNo = Long.parseLong(opt.next());
 		System.out.println("Date Of Birth:");
-		String dob = opt.next();
+		String date = opt.next();
+		DateTimeFormatter dateFormat =  DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		 LocalDate dob = LocalDate.parse(date,dateFormat);
+		System.out.println(dob);
 		System.out.println("Address:");
 		String addr = opt.next();
 		System.out.println("Password:");
 		String password = opt.next();
+	 
+		
 				UserOperations ops = new UserOperations();
-				User u = ops.doUserRegistration(fName, lName, password, phNo, dob, addr);
+				User u = ops.doUserRegistration(fName, lName, password, phNo,  dob, addr);
 				
 				try {
 					SqlDAO sqlDao = new SqlDAO();
@@ -192,9 +225,21 @@ public class RunPaymentsApplication {
 			String password = opt.next();
 
 
-			UserOperations ops = new UserOperations();
-
-			ops.userLogIn ( userId, password);
+			 try {
+				SqlDAO dao = new SqlDAO();
+				if(dao.verifyUser(userId, password)) {
+					System.out.println("User successfully logged in ");
+				}
+				else {
+					System.out.println("user not found");
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) { 
+				e.printStackTrace();
+			} catch ( Exception e) {
+				e.printStackTrace();
+			}
 			}
 			else {
 				System.out.println("To log in to another account you must log out the current user");
@@ -236,13 +281,13 @@ public class RunPaymentsApplication {
 		bankAccount.setIFSC(ifsc);
 		bankAccount.setAcctPin(pin);
 		bankAccount.setUserid(currentUserId);
-		bankAccount.setAcctBalance(1200);
+		bankAccount.setAcctBalance(500);
 		List<BankAccount> temp = new ArrayList<>();
-		for(User u : userList) {
-			if(u.getUserId()==currentUserId) {
-				u.getBankList().add(bankAccount);	
-			}
-		}
+//		for(User u : userList) {
+//			if(u.getUserId()==currentUserId) {
+//				u.getBankList().add(bankAccount);	
+//			}
+//		}
 		acctList.add(bankAccount);
 		try {
 			SqlDAO sqlDao = new SqlDAO();
@@ -275,8 +320,16 @@ public class RunPaymentsApplication {
 		System.out.println("Enter amount : ");
 		double amount = sc.nextDouble();
 		if(amount <=10000.00) {
-			UserOperations ops = new UserOperations();
-			ops.addMoneyToWallet(amount);
+			 try {
+				SqlDAO dao = new SqlDAO();
+				System.out.println(dao.addMoneyToWallet(amount));
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else {
 			System.out.println("Maximum deposit is 10,000 ");
@@ -325,209 +378,79 @@ public class RunPaymentsApplication {
 	}
 	public static void transaction() {
 		 if(currentUserId!= -1) {
-		    Scanner sc = new Scanner(System.in);
-		    Transaction transaction = new Transaction();
-		    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		      Date date = new Date();
-		     UserOperations ops = new UserOperations();
-		    int i = 1;
-			 for(TransactionType transactionType : TransactionType.values()) {
-				 System.out.println(i+" "+transactionType);
-				 i++;
-			 }
-			 System.out.println("select an option to perform : ");
-			 int option = sc.nextInt();
-			 if(option==1) {
-				 transaction.setTransactionType(TransactionType.DEBIT);
-				 System.out.println("Select which type of transfer you want to perform");
-				 System.out.println("1.Wallet to Wallet");
-				 System.out.println("2.Bank to Bank");
-				 System.out.println("3.Bank to Wallet");
-				 System.out.println("4.Wallet to Bank");
-				 boolean result;
-
-				 int transferType = sc.nextInt();
-				 System.out.println("Enter Transaction Amount : ");
-				 double tAmount = sc.nextDouble();
-				 transaction.setTransactionAmount(tAmount);
-				 transaction.setTransactionDate(formatter.format(date));
-				 transaction.setTransactionId(date.getTime());
-				 transaction.setUserId();
-
-				 switch(transferType) {
-				 case 1 :   Wallet source = walletList.get(currentUserId);
-				 transaction.setSourceWallet(source);
-				 System.out.println("enter receiver userId : ");
-				 int receiver = sc.nextInt();
-				 Wallet destination = walletList.get(receiver);
-				 transaction.setDestinationWallet(destination);
-				    result =ops.doTransaction(source, destination, transaction.getTransactionType(),tAmount);
-				    if(result) {
-						 System.out.println("transaction successful");
+			    Scanner sc = new Scanner(System.in);
+			    Transaction transaction = new Transaction();
+			      Date date = new Date();
+			     UserOperations ops = new UserOperations();
+			     int i = 1;
+				 for(TransactionType transactionType : TransactionType.values()) {
+					 System.out.println(i+" "+transactionType);
+					 i++;
+				 }
+				 System.out.println("select an option to perform : ");
+				 int option = sc.nextInt();
+				 if(option==1) {
+					 transaction.setTransactionType(TransactionType.DEBIT);
+					 System.out.println("Select which type of transfer you want to perform");
+					 System.out.println("1.Wallet to Wallet");
+					 System.out.println("2.Bank to Bank");
+					 System.out.println("3.Bank to Wallet");
+					 System.out.println("4.Wallet to Bank");
+					 switch(option) {
+					 case 1 :  try {
+							walletToWallet();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					 }
-					 else {
-						 System.out.println("Transaction failed");
-					 }
-
-				 break;
-
-				 case 2 :  System.out.println("Enter sender bankaccount number : ");
-				 String senderAcctNum = sc.next();
-				 BankAccount source2 = null;
-				 List<BankAccount> userAccountList = new ArrayList<BankAccount>();
-				 Map<User,List<BankAccount>> mapItems = ops.getBankAccountList();
-					for(User u:mapItems.keySet()) {
-						if(u.getUserId()==currentUserId) {
-							userAccountList =  mapItems.get(u);
-						}
-					}
-					for(BankAccount b : userAccountList) {
-						if(b.getAcctNumber().equals(senderAcctNum)) {
-							source2 = b;
-						}
-					}
-					if(source2 != null) {
-						 System.out.println("Enter receiver bankaccount number : ");
-						 String recieverAcctNum = sc.next();
-						 BankAccount destination2 = null;
-						 for(BankAccount b : acctList) {
-							 if(b.getAcctNumber().equals(recieverAcctNum)) {
-								 destination2 = b;
-							 }
-						 }
-
-						 transaction.setSourceAcct(source2);
-						 transaction.setDestinationAcct(destination2);
-						  result =ops.doTransaction(source2, destination2, transaction.getTransactionType(),tAmount);
-						  if(result) {
-								 System.out.println("transaction successful");
-							 }
-							 else {
-								 System.out.println("Transaction failed");
-							 }
-				           }
-					break;
-				 case 3 :  System.out.println("Enter sender bankaccount number : ");
-				 String senderAcctNumBankToWallet = sc.next();
-				 BankAccount sourceBankToWallet = null;
-
-				 List<BankAccount> userAccountListBankToWallet = new ArrayList<BankAccount>();
-				 Map<User,List<BankAccount>> mapItemsBankToWallet = ops.getBankAccountList();
-					for(User u:mapItemsBankToWallet.keySet()) {
-						if(u.getUserId()==currentUserId) {
-							userAccountListBankToWallet =  mapItemsBankToWallet.get(u);
-						}
-					}
-					for(BankAccount b : userAccountListBankToWallet) {
-						if(b.getAcctNumber().equals(senderAcctNumBankToWallet)) {
-							  sourceBankToWallet = b;
-							transaction.setSourceAcct(sourceBankToWallet);
-						}
-					}
-
-					 System.out.println("enter receiver userId : ");
-					 int receiverId = sc.nextInt();
-					 Wallet destinationWallet = walletList.get(receiverId);
-					 transaction.setDestinationWallet(destinationWallet);
-					 result =ops.doTransaction(sourceBankToWallet, destinationWallet, transaction.getTransactionType(),tAmount);
-					 if(result) {
-//						 Transaction recipientTransaction = new Transaction();
-//						 recipientTransaction.setTransactionAmount(tAmount);
-//						 transaction.setTransactionDate(formatter.format(date));
-//						 recipientTransaction.setTransactionId(date.getTime());
-//						 recipientTransaction.setUserId( destinationWallet.getUserId());
-//						 recipientTransaction.setSourceAcct(sourceBankToWallet);
-						 System.out.println("Transaction successful");
-						 }
-					 else {
-						 System.out.println("Transaction failed");
-					 }
-					break;
-				 case 4 :  Wallet sourceWallet = walletList.get(currentUserId);
-				           transaction.setSourceWallet(sourceWallet);
-
-				           System.out.println("Enter receiver bankaccount number : ");
-							String recieverAcctNum = sc.next();
-							 BankAccount destinationAccount = null;
-							 for(BankAccount b : acctList) {
-								 if(b.getAcctNumber().equals(recieverAcctNum)) {
-									 destinationAccount = b;
-								 }
-
-							 }
-							 transaction.setDestinationAcct(destinationAccount);
-							 result =ops.doTransaction(sourceWallet, destinationAccount, transaction.getTransactionType(),tAmount);
-							 if(result) {
-								 System.out.println("transaction successful");
-							 }
-							 else {
-								 System.out.println("Transaction failed");
-							 }
-							 break;
-
-						default : System.out.println("please enter correct option");
-			 }
-
-
-			 }
-
-
-			 else if(option==2) {
-				 transaction.setTransactionType(TransactionType.CREDIT);
-				 transaction.setTransactionDate(formatter.format(date));
-				 transaction.setTransactionId(date.getTime());
-				 transaction.setUserId();
-				 System.out.println("Enter Account Number : ");
-				 String targetAcctNum = sc.next ();
-				 System.out.println("Enter Transaction Amount : ");
-				 double tAmount = sc.nextDouble();
-				 BankAccount source = null;
-				 List<BankAccount> userAccountList = new ArrayList<BankAccount>();
-				 Map<User,List<BankAccount>> mapItems = ops.getBankAccountList();
-					for(User u:mapItems.keySet()) {
-						if(u.getUserId()==currentUserId) {
-							userAccountList =  mapItems.get(u);
-						}
-					}
-					for(BankAccount b : userAccountList) {
-						if(b.getAcctNumber().equals(targetAcctNum)) {
-							source = b;
-						}
-					}
-					transaction.setSourceAcct(source);
-					ops.creditAmountToAccount(source, tAmount);
-			 }
+					 
+				 
+ 
+ 
 			 
-			  try {
-				  SqlDAO sqlDao = new SqlDAO();
-				  sqlDao.addTransactionDetailsToDataBase(transaction);
-			  }catch(ClassNotFoundException e) {
-				  e.printStackTrace();
-			  }
-			  catch(SQLException e) {
-				  e.printStackTrace();
-			  }
-			  catch(Exception e) {
-				   e.printStackTrace();
-			  }
+				 }
+		 }
 
 
 
 
-
-
-	}
+ 
 	}
 	public static void checkAcctBalance() {
 		System.out.println("Enter account number");
 		 Scanner sc = new Scanner(System.in);
 		 String acctNum = sc.next();
-		 for(BankAccount b : acctList) {
-			 if(b.getAcctNumber().equals(acctNum)) {
-				 System.out.println( b.getAcctBalance());
-			 }
-		 }
+		  
+		  try {
+			SqlDAO dao = new SqlDAO();
+			 System.out.println("balance : "+dao.showAccountBalance(acctNum));;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
+	public static void walletToWallet() throws ClassNotFoundException, SQLException {
+		 Scanner sc = new Scanner(System.in);
+		System.out.println("Enter amount :");
+		double amount = sc.nextDouble();
+		System.out.println("Enter receiver's UserId :");
+		int receiver = sc.nextInt();
+		SqlDAO dao = new SqlDAO();
+		if(dao.transactionWalletToWallet(amount, receiver)) {
+			System.out.println("transaction successfull");
+		}
+		else {
+			System.out.println("transation failed");
+		}
+		
 	}
 	 
 

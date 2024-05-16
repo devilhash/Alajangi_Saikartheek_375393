@@ -1,13 +1,24 @@
 package com.kartheek.java.clipayments.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class User {
 	private String firstName;
 	private String lastName;
 	private long phoneNum;
-	private String dateOfBirth;
+	private  LocalDate dateOfBirth;
+	
+	
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	private String communicationAddr;
 	private List<BankAccount> bankList = new ArrayList<BankAccount>();
 	
@@ -21,6 +32,7 @@ public class User {
 	private int userId;
 	private String password;
 	
+  
 	public String getFirstName() {
 		return firstName;
 	}
@@ -39,12 +51,7 @@ public class User {
 	public void setPhoneNum(long phoneNum) {
 		this.phoneNum = phoneNum;
 	}
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+ 
 	public String getCommunicationAddr() {
 		return communicationAddr;
 	}
