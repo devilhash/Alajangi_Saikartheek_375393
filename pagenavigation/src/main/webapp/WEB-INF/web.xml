@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+  <display-name>pagenavigation</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>ShowDetailsServlet</display-name>
+    <servlet-name>ShowDetailsServlet</servlet-name>
+    <servlet-class>com.ShowDetailsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ShowDetailsServlet</servlet-name>
+    <url-pattern>/ShowDetailsServlet</url-pattern>
+    <url-pattern>/show</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NextPage</display-name>
+    <servlet-name>NextPage</servlet-name>
+    <servlet-class>com.NextPage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NextPage</servlet-name>
+    <url-pattern>/NextPage</url-pattern>
+  </servlet-mapping>
+</web-app>
