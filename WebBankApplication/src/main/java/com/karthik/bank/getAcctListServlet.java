@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.karthik.bank.dao.BankAccountDAO;
 import com.karthik.bank.dto.BankAccount;
+import com.karthik.bank.dto.User;
 
 /**
  * Servlet implementation class getAcctListServlet
@@ -35,17 +36,13 @@ public class getAcctListServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String cookieName = "userId";
-		Cookie[] cookies = request.getCookies();
-		for(Cookie c : cookies) {
-			
-		}
+		 
 		
 		 HttpSession session = request.getSession();
-		 int userId = (int) session.getAttribute("userId");
+		 User u =  (User) session.getAttribute("user_details");
 		 try {
 			BankAccountDAO bankDao = new BankAccountDAO();
-			List<BankAccount> list = bankDao.getBankAcctList(userId);
+			List<BankAccount> list = bankDao.getBankAcctList(u.getUserId());
 			session.setAttribute("bankList", list);
 //			RequestDispatcher rd = request.getRequestDispatcher("/dashboard.jsp");
 //			rd.forward(request, response);
@@ -57,5 +54,5 @@ public class getAcctListServlet extends HttpServlet {
 		}
 	}
  
-     }
+     
 }

@@ -12,7 +12,7 @@
 </head>
 <body>
   <%@ page import = "com.karthik.bank.dao.UserDAO" %>
-  <%  
+  <%--
     Cookie[] cookies = request.getCookies();
     UserDAO dao = new UserDAO();
     for(Cookie c : cookies){
@@ -23,7 +23,7 @@
     	}
     }
   
-  %>
+ --%>
     
     <div class ="row" id = "main">
          

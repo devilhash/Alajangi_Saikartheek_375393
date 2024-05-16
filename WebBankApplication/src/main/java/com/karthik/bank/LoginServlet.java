@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import com.karthik.bank.dao.UserDAO;
+import com.karthik.bank.dto.User;
 
  
 public class LoginServlet extends HttpServlet {
@@ -29,18 +30,17 @@ public class LoginServlet extends HttpServlet {
 		 
 		String userName = request.getParameter("phonenumber");
 		String password = request.getParameter("password");
-		int userId = 0;
+		User u = null;
 		String fullName = null;
 		try {
 		    UserDAO dao = new UserDAO();
-			userId = dao.userAuth(userName, password);
-			fullName = dao.userDetails(userId);
-			if(userId!=0) {
+			u =   dao.userAuth(userName, password);
+
+			if(u!= null) {
 				HttpSession session = request.getSession();
-				session.setAttribute("userId", userId);
-				session.setAttribute("name",  fullName);
+				session.setAttribute("user_details",u);
 				
-				Cookie co = new Cookie("userId",String.valueOf(userId));
+				Cookie co = new Cookie("userId",String.valueOf(u.getUserId()));
 				response.addCookie(co);
 				RequestDispatcher acctListrd = request.getRequestDispatcher("getAcctListServlet");
 				acctListrd.forward(request, response);

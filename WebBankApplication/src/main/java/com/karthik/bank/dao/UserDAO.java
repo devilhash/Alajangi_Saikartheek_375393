@@ -26,16 +26,25 @@ public class UserDAO {
 		return st.executeUpdate(query);
 	}
 	 
-	public int userAuth(String userId,String password) throws SQLException {
+	public User userAuth(String userId,String password) throws SQLException {
 		Statement st = con.createStatement();
-		String query = "select phNo,password,user_id from user_info";
+		String query = "select * from user_info";
 		ResultSet rs = st.executeQuery(query);
 		while(rs.next()) {
-			if(rs.getString(1).equals(userId)&&rs.getString(2).equals(password)) {
-				 return rs.getInt(3);
-			}
+			if(rs.getString("phNo").equals(userId)&&rs.getString("password").equals(password)) {
+				  User u = new User();
+				  u.setUserId( rs.getInt("user_id"));
+				  u.setFirstName(rs.getString("first_name"));
+				  u.setLastName(rs.getString( "last_name"));
+				  u.setAddress(rs.getString( "address"));
+				  u.setPhNo(rs.getString("phNo"));
+				  u.setWalletBalance( rs.getDouble("wallet_balance"));
+				  
+				  return u;
+				  			}
 		}
-		return 0;
+		return null;
+		 
 	}
 	public String userDetails(int userId) throws SQLException {
 		PreparedStatement st = con.prepareStatement("select first_name,last_name from user_info where user_id = ?");

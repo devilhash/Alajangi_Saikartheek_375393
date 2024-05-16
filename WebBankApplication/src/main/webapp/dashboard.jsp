@@ -16,10 +16,13 @@
         <button>log out</button>
 
     </div>
+    <%@ page import = "com.karthik.bank.dto.User" %>
     <%
-    String userName = (String) session.getAttribute("name");
+     User u= (User) session.getAttribute("user_details");
+     String firstName = u.getFirstName();
+     String lastName = u.getLastName();
     %>
-    <h2 style="padding: 10px;">Welcome <%= userName %></h2>
+    <h2 style="padding: 10px;">Welcome <%= firstName+" "+lastName %></h2>
     
      
    <%@ page import="java.util.ArrayList" %>
@@ -38,7 +41,11 @@
             <ul>
             <li><h4>PrimaryBankAccount : <%=list.get(0).getAcctNumber() %></h4></li>
             <li><h4>BankAccountBalance : <%=list.get(0).getAcctBalance()%></h4></li>
+            <li><h4>WalletBalance      : <%=u.getWalletBalance()%></h4></li>
+            <li> <form action = "http://localhost:8080/WebBankApplication/transaction.jsp">
+                   <input type = "submit" value = "send money"  class = "send" />   </form></li>
             </ul>
+            
     </div>
    <%} %>
    

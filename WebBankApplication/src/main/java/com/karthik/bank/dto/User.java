@@ -10,12 +10,19 @@ public class User {
 	String address;
 	String phNo;
 	LocalDate dob;
-	String password;
+	String password; 
+	double walletBalance;
+	public double getWalletBalance() {
+		return walletBalance;
+	}
+	public void setWalletBalance(double walletBalance) {
+		this.walletBalance = walletBalance;
+	}
 	public int getUserId() {
 		return userId;
 	}
-	public void setUserId( ) {
-		this.userId = 1000;
+	public void setUserId( int userId) {
+		 this.userId = userId;
 	}
 	public String getFirstName() {
 		return firstName;
