@@ -3,6 +3,8 @@ package com.kartheek.java.clipayments.entity;
 //import java.time.LocalDate;
 import java.util.Date;
 
+import com.kartheek.java.clipayments.RunPaymentsApplication;
+
 public class Transaction {
 	TransactionType transactionType;
 	Double transactionAmount;
@@ -24,13 +26,23 @@ public class Transaction {
 	public void setDestinationAcct(BankAccount destinationAcct) {
 		this.destinationAcct = destinationAcct;
 	}
-	Date transactionDate;
+	String transactionDate;
     long transactionId;
 	Wallet sourceWallet;
 	Wallet destinationWallet;
 	BankAccount sourceAcct;
 	BankAccount destinationAcct;
+	int UserId;
 	
+	public int getUserId() {
+		return UserId;
+	}
+	public void setUserId() {
+		UserId = RunPaymentsApplication.currentUserId;
+	}
+	public void setUserId(int userId) {
+		UserId = userId;
+	}
 	public TransactionType getTransactionType() {
 		return transactionType;
 	}
@@ -38,11 +50,11 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 	 
-	public Date getTransactionDate() {
+	public String getTransactionDate() {
 		return transactionDate;
 	}
-	public void setTransactionDate(Date transactionDate) {
-		this.transactionDate = transactionDate;
+	public void setTransactionDate(String string) {
+		this.transactionDate = string;
 	}
  
 	public Wallet getSourceWallet() {
